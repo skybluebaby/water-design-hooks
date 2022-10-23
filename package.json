@@ -2,8 +2,8 @@
   "name": "water-design-hooks",
   "version": "1.0.0",
   "description": "一个基于react的hooks库",
-  "main": "index.js",
-  "types": "./src/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.config.js",
     "dev": "webpack-dev-server --config webpack.dev.config.js",
@@ -41,6 +41,7 @@
     "@typescript-eslint/parser": "^5.40.1",
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
     "eslint": "^8.26.0",
     "eslint-plugin-react": "^7.31.10",
     "html-webpack-plugin": "^5.5.0",
