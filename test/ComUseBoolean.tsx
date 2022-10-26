@@ -9,6 +9,8 @@ const ComUseBoolean = () => {
       <button onClick={setTrue}>显示</button>
       <button onClick={setFalse}>隐藏</button>
       <button onClick={() => toggle()}>切换</button>
+      <button onClick={() => toggle(true)}>切换显示</button>
+      <button onClick={() => toggle(false)}>切换隐藏</button>
       <p>文本:</p>
       {show && <p>北京的金山上，光芒照四方</p>}
     </div>

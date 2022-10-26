@@ -2,8 +2,11 @@
   "name": "water-design-hooks",
   "version": "1.0.0",
   "description": "一个基于react的hooks库",
-  "main": "./dist/index.js",
+  "main": "./dist/index.min.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.config.js",
     "dev": "webpack-dev-server --config webpack.dev.config.js",
