@@ -1,43 +1,23 @@
 import React from 'react';
-import { getScroll, scrollTo, easeInOutCubic } from './utils';
 import raf from 'rc-util/lib/raf';
-import { UseScroll, Target, Position } from './index.d';
+import { getScroll, scrollTo, easeInOutCubic, getDom } from './utils';
+import { UseScroll, Position, Target } from './index.d';
 
 /**
- *
- * @returns [domRef, { position, setPosition }]
- * @member domRef 绑定的容器
- * @member position  当前容器所处的位置 { left, top }
- * @member setPosition 设置当前容器的位置
+ * 滚动容器监听的hooks
+ * @returns { position, getPosition, setPosition }
  */
-const useScroll: UseScroll = () => {
+const useScroll: UseScroll = ({ container }) => {
+  const [point, setPoint] = React.useState<Position>({ left: 0, top: 0 });
   const domRef = React.useRef(null);
 
-  const [point, setPoint] = React.useState<Position>({ left: 0, top: 0 });
-
   const getPosition = React.useCallback((): Position => {
-    const target = domRef.current;
-    if (target) {
-      return getScroll(target);
+    const dom = domRef.current;
+    if (dom) {
+      return getScroll(dom);
     }
     return { left: 0, top: 0 };
   }, []);
-
-  React.useEffect(() => {
-    const onScroll = () => {
-      const position = getPosition();
-      setPoint(position);
-    };
-    const target = domRef.current;
-    if (target) {
-      (target as Target).addEventListener('scroll', onScroll);
-    }
-    return () => {
-      if (target) {
-        (target as Target).removeEventListener('scroll', onScroll);
-      }
-    };
-  }, [getPosition]);
 
   const setPosition = React.useCallback(
     (
@@ -47,8 +27,8 @@ const useScroll: UseScroll = () => {
     ): void => {
       const { left = 0, top = 0 } = position || {};
       const startTime = Date.now();
-      const target = domRef.current;
-      if (!target) {
+      const dom = domRef.current;
+      if (!dom) {
         return;
       }
       const { left: scrollLeft, top: scrollTop } = getPosition();
@@ -66,7 +46,7 @@ const useScroll: UseScroll = () => {
             duration
           )
         );
-        scrollTo(target, nextScrollLeft, nextScrollTop);
+        scrollTo(dom, nextScrollLeft, nextScrollTop);
         if (time < duration) {
           raf(frameFunc);
         } else if (typeof callback === 'function') {
@@ -78,7 +58,27 @@ const useScroll: UseScroll = () => {
     [getPosition]
   );
 
-  return [domRef, { position: point, setPosition }];
+  React.useEffect(() => {
+    domRef.current = getDom(container);
+  }, []);
+
+  React.useEffect(() => {
+    const onScroll = () => {
+      const position = getPosition();
+      setPoint(position);
+    };
+    const dom = domRef.current as Target;
+    if (dom) {
+      dom.addEventListener('scroll', onScroll);
+    }
+    return () => {
+      if (dom) {
+        dom.removeEventListener('scroll', onScroll);
+      }
+    };
+  }, [getPosition]);
+
+  return { position: point, getPosition, setPosition };
 };
 
 export default useScroll;

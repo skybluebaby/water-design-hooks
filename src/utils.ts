@@ -43,3 +43,10 @@ export const getScroll = (target: Target): Position => {
   }
   return { left, top };
 };
+
+export const getDom = (param: any) => {
+  if (typeof param === 'function') {
+    return param();
+  }
+  return param;
+};

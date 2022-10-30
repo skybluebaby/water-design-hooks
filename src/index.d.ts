@@ -48,30 +48,17 @@ export type Position = {
   top: number;
 };
 
-export type Target = HTMLElement | Document | Window;
+export type Target = HTMLElement | Document | Window | null;
 
-export type UseScroll = () => [
-  React.MutableRefObject<null>,
-  {
-    /**
-     * 当前位置
-     * @member { left, top }
-     */
-    position: Position;
-    /**
-     * 设置位置
-     * @param {object|undefined} position 传入当前dom需要到达的位置 { left: number, top: number }
-     * @param {number|undefined} duration 指定到达指定位置的时间
-     * @param {function|undefined} callback 到达指定位置后的回调
-     * @returns void
-     */
-    setPosition: (
-      position?: Partial<Position>,
-      duration?: number,
-      callback?: () => any
-    ) => void;
-  }
-];
+export type UseScroll = ({ container }: { container: () => Target }) => {
+  position: Position;
+  getPosition: () => Position;
+  setPosition: (
+    position?: Partial<Position>,
+    duration?: number,
+    callback?: () => any
+  ) => void;
+};
 
 declare const useScroll: UseScroll;
 /*------------------------------------------------------------------------*/

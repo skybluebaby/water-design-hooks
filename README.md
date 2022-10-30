@@ -4,13 +4,14 @@ water-design-hooks 是基于 react 的一套 hooks 库，用于 react 的状态�
 
 ## 介绍
 
-| 名称               | 说明                                            | 版本   |
-| :----------------- | :---------------------------------------------- | :----- |
-| `useBoolean`       | 定义布尔值                                      | ^1.0.0 |
-| `useFormInput`     | 对表单的`value`和`onChange`的复用封装           | ^1.0.0 |
-| `useInterval`      | 计时器，按间隔执行回调函数，可控清除计时器      | ^1.0.0 |
-| `useMousePosition` | 获取鼠标位置                                    | ^1.0.0 |
-| `useSyncState`     | 在调用 setState 后，可同步获取 state 改变后的值 | ^1.0.0 |
+| 名称               | 说明                                            | 参数                      | 版本   |
+| :----------------- | :---------------------------------------------- | :------------------------ | :----- |
+| `useBoolean`       | 定义布尔值                                      | `boolean`                 | ^1.0.0 |
+| `useFormInput`     | 对表单的`value`和`onChange`的复用封装           | `string`                  | ^1.0.0 |
+| `useInterval`      | 计时器，按间隔执行回调函数，可控清除计时器      | -                         | ^1.0.0 |
+| `useMousePosition` | 获取鼠标位置                                    | -                         | ^1.0.0 |
+| `useSyncState`     | 在调用 setState 后，可同步获取 state 改变后的值 | -                         | ^1.0.0 |
+| `useScroll`        | 滚动的监听                                      | `{ container: function }` | ^1.0.0 |
 
 ## 使用
 
@@ -132,6 +133,49 @@ const App = () => {
       <hr></hr>
       <button onClick={onValue2Click}>value2自增</button>
       <span>{value2}</span>
+    </div>
+  );
+};
+
+export default App;
+```
+
+### useScroll
+
+```tsx
+import React from 'react';
+import { useScroll } from 'water-design-hooks';
+
+const App = () => {
+  const ref = React.useRef(null);
+  const { setPosition } = useScroll({
+    // container: () => document.getElementById('wrapper'),
+    container: () => ref.current,
+  });
+
+  return (
+    <div
+      style={{
+        width: 300,
+        height: 500,
+        border: '2px solid #000',
+        overflow: 'auto',
+      }}
+      // id="wrapper"
+      ref={ref}
+    >
+      <div style={{ height: 1000, width: 700 }}>123</div>
+      <span>456</span>
+      <button
+        style={{ marginLeft: 200 }}
+        onClick={() =>
+          setPosition({ top: 10 }, 600, () => {
+            console.log(123);
+          })
+        }
+      >
+        回到顶部
+      </button>
     </div>
   );
 };
