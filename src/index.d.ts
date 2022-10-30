@@ -42,6 +42,38 @@ export type UseInterval = (
 };
 declare const useInterval: UseInterval;
 
+/*----------------------------useScroll----------------------------*/
+export type Position = {
+  left: number;
+  top: number;
+};
+
+export type Target = HTMLElement | Document | Window;
+
+export type UseScroll = () => [
+  React.MutableRefObject<null>,
+  {
+    /**
+     * 当前位置
+     * @member { left, top }
+     */
+    position: Position;
+    /**
+     * 设置位置
+     * @param {object|undefined} position 传入当前dom需要到达的位置 { left: number, top: number }
+     * @param {number|undefined} duration 指定到达指定位置的时间
+     * @param {function|undefined} callback 到达指定位置后的回调
+     * @returns void
+     */
+    setPosition: (
+      position?: Partial<Position>,
+      duration?: number,
+      callback?: () => any
+    ) => void;
+  }
+];
+
+declare const useScroll: UseScroll;
 /*------------------------------------------------------------------------*/
 
 export interface WaterHooks {
@@ -50,6 +82,7 @@ export interface WaterHooks {
   useSyncState: UseSyncState;
   useMousePosition: UseMousePosition;
   useInterval: UseInterval;
+  useScroll: UseScroll;
 }
 declare const waterHooks: WaterHooks;
 
@@ -59,6 +92,7 @@ export {
   useSyncState,
   useMousePosition,
   useInterval,
+  useScroll,
 };
 
 export default waterHooks;
