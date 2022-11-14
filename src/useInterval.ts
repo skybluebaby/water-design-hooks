@@ -2,7 +2,7 @@ import React from 'react';
 import { UseInterval } from './index.d';
 
 // 计时器
-const useInterval: UseInterval = (callback, wait) => {
+const useInterval: UseInterval = (callback, delay) => {
   const intervalRef = React.useRef<undefined | number>(undefined);
   const savedCallback = React.useRef(callback);
 
@@ -11,14 +11,16 @@ const useInterval: UseInterval = (callback, wait) => {
   }, [callback]);
 
   React.useEffect(() => {
-    intervalRef.current = window.setInterval(() => {
-      savedCallback.current();
-    }, wait);
+    if (typeof delay === 'number') {
+      intervalRef.current = window.setInterval(() => {
+        savedCallback.current();
+      }, delay);
 
-    return () => {
-      window.clearInterval(intervalRef.current);
-    };
-  }, [wait]);
+      return () => {
+        window.clearInterval(intervalRef.current);
+      };
+    }
+  }, [delay]);
 
   const clearInterval = () => {
     window.clearInterval(intervalRef.current);

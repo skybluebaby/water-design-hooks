@@ -1,6 +1,6 @@
 {
   "name": "water-design-hooks",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "一个基于react的hooks库",
   "main": "./dist/index.min.js",
   "types": "./dist/index.d.ts",

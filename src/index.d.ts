@@ -35,7 +35,7 @@ declare const useMousePosition: UseMousePosition;
 /*----------------------------useInterval----------------------------*/
 export type UseInterval = (
   callback: () => void,
-  wait: number
+  delay: number | null
 ) => {
   intervalRef: React.MutableRefObject<undefined | number>;
   clearInterval: () => void;
@@ -61,6 +61,13 @@ export type UseScroll = ({ container }: { container: () => Target }) => {
 };
 
 declare const useScroll: UseScroll;
+
+/*----------------------------useRetry----------------------------*/
+export type UseRetry = (
+  callback: () => boolean | void | Promise<boolean | void>,
+  delay: number | null
+) => boolean;
+declare const useRetry: UseRetry;
 /*------------------------------------------------------------------------*/
 
 export interface WaterHooks {
@@ -70,6 +77,7 @@ export interface WaterHooks {
   useMousePosition: UseMousePosition;
   useInterval: UseInterval;
   useScroll: UseScroll;
+  useRetry: UseRetry;
 }
 declare const waterHooks: WaterHooks;
 
@@ -80,6 +88,7 @@ export {
   useMousePosition,
   useInterval,
   useScroll,
+  useRetry,
 };
 
 export default waterHooks;

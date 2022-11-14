@@ -4,14 +4,15 @@ water-design-hooks 是基于 react 的一套 hooks 库，用于 react 的状态�
 
 ## 介绍
 
-| 名称               | 说明                                            | 参数                      | 版本   |
-| :----------------- | :---------------------------------------------- | :------------------------ | :----- |
-| `useBoolean`       | 定义布尔值                                      | `boolean`                 | ^1.0.0 |
-| `useFormInput`     | 对表单的`value`和`onChange`的复用封装           | `string`                  | ^1.0.0 |
-| `useInterval`      | 计时器，按间隔执行回调函数，可控清除计时器      | -                         | ^1.0.0 |
-| `useMousePosition` | 获取鼠标位置                                    | -                         | ^1.0.0 |
-| `useSyncState`     | 在调用 setState 后，可同步获取 state 改变后的值 | -                         | ^1.0.0 |
-| `useScroll`        | 滚动的监听                                      | `{ container: function }` | ^1.0.0 |
+| 名称               | 说明                                            | 参数                                | 版本   |
+| :----------------- | :---------------------------------------------- | :---------------------------------- | :----- |
+| `useBoolean`       | 定义布尔值                                      | `boolean`                           | ^1.0.0 |
+| `useFormInput`     | 对表单的`value`和`onChange`的复用封装           | `string`                            | ^1.0.0 |
+| `useInterval`      | 计时器，按间隔执行回调函数，可控清除计时器      | -                                   | ^1.0.0 |
+| `useMousePosition` | 获取鼠标位置                                    | -                                   | ^1.0.0 |
+| `useSyncState`     | 在调用 setState 后，可同步获取 state 改变后的值 | -                                   | ^1.0.0 |
+| `useScroll`        | 滚动的监听                                      | `{ container: function }`           | ^1.0.0 |
+| `useRetry`         | 重试                                            | `Function or AsyncFunction, number` | ^1.0.1 |
 
 ## 使用
 
@@ -176,6 +177,41 @@ const App = () => {
       >
         回到顶部
       </button>
+    </div>
+  );
+};
+
+export default App;
+```
+
+### useRetry
+
+```tsx
+import React from 'react';
+import { useRetry } from 'water-design-hooks';
+
+let a = 0;
+const fetchData = async () => {
+  a++;
+  return Promise.resolve({ name: '张三' + a });
+};
+
+const App = () => {
+  const [data, setData] = React.useState<{ name?: string }[]>([]);
+  useRetry(async () => {
+    const res = await fetchData();
+    setData((prev) => [...prev, res]);
+    if (res.name === '张三10') {
+      // 当返回true时结束该重试hook
+      return true;
+    }
+  }, 1000);
+
+  return (
+    <div>
+      {data.map((item, i) => {
+        return <div key={i}>{item.name}</div>;
+      })}
     </div>
   );
 };

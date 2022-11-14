@@ -4,6 +4,7 @@ import useSyncState from './useSyncState';
 import useMousePosition from './useMousePosition';
 import useInterval from './useInterval';
 import useScroll from './useScroll';
+import useRetry from './useRetry';
 
 import { WaterHooks } from './index.d';
 
@@ -14,6 +15,7 @@ export {
   useMousePosition,
   useInterval,
   useScroll,
+  useRetry,
 };
 
 const waterHooks: WaterHooks = {
@@ -23,6 +25,7 @@ const waterHooks: WaterHooks = {
   useMousePosition,
   useInterval,
   useScroll,
+  useRetry,
 };
 
 export default waterHooks;
